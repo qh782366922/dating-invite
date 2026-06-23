@@ -546,7 +546,7 @@ html { scroll-behavior: smooth; }
 <body>
 
 <!-- Background Audio -->
-<audio id="bgMusic" src="Perfect.mp3" loop preload="auto"></audio>
+<audio id="bgMusic" src="Perfect.mp3" loop preload="auto" autoplay playsinline></audio>
 
 <!-- Floating animated particles -->
 <div class="floating-particles" id="floatingParticles"></div>
@@ -654,21 +654,54 @@ html { scroll-behavior: smooth; }
 /* === BACKGROUND MUSIC === */
 let musicPlaying = false;
 const bgMusic = document.getElementById('bgMusic');
+const MUSIC_START_TIME = 8.5; // "I found a love..." starts here
 
-// Try autoplay on first user interaction
-function tryAutoplay() {
+// Start from the first lyric as soon as metadata loads
+bgMusic.addEventListener('loadedmetadata', () => {
+  bgMusic.currentTime = MUSIC_START_TIME;
+  // Attempt autoplay immediately
+  bgMusic.volume = 0.3;
+  bgMusic.play().then(() => {
+    musicPlaying = true;
+    updateMusicIcon();
+  }).catch(() => {
+    // Autoplay blocked — wait for user gesture
+  });
+});
+
+// Also try immediately in case metadata already loaded
+if (bgMusic.readyState >= 1) {
+  bgMusic.currentTime = MUSIC_START_TIME;
+  bgMusic.volume = 0.3;
+  bgMusic.play().then(() => {
+    musicPlaying = true;
+    updateMusicIcon();
+  }).catch(() => {});
+}
+
+// Fallback: any interaction triggers play if not already playing
+function resumeMusic() {
   if (bgMusic && !musicPlaying) {
+    bgMusic.currentTime = MUSIC_START_TIME;
     bgMusic.volume = 0.3;
     bgMusic.play().then(() => {
       musicPlaying = true;
       updateMusicIcon();
     }).catch(() => {});
-    document.removeEventListener('click', tryAutoplay);
-    document.removeEventListener('touchstart', tryAutoplay);
+    document.removeEventListener('click', resumeMusic);
+    document.removeEventListener('touchstart', resumeMusic);
   }
 }
-document.addEventListener('click', tryAutoplay, { once: true });
-document.addEventListener('touchstart', tryAutoplay, { once: true });
+document.addEventListener('click', resumeMusic, { once: true });
+document.addEventListener('touchstart', resumeMusic, { once: true });
+
+// Loop back to first lyric instead of beginning of song
+bgMusic.addEventListener('timeupdate', () => {
+  // When nearing end, seek back to start time for seamless loop
+  if (bgMusic.currentTime >= bgMusic.duration - 1) {
+    bgMusic.currentTime = MUSIC_START_TIME;
+  }
+});
 
 function toggleMusic() {
   if (!bgMusic) return;
@@ -676,6 +709,7 @@ function toggleMusic() {
     bgMusic.pause();
     musicPlaying = false;
   } else {
+    bgMusic.currentTime = MUSIC_START_TIME;
     bgMusic.play();
     musicPlaying = true;
   }
