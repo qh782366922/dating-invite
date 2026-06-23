@@ -472,6 +472,16 @@ body::before {
   margin-bottom: 6px;
   animation: float 3s ease-in-out infinite;
 }
+.card-title-gif {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 6px;
+  border-radius: 16px;
+  background: none;
+  mix-blend-mode: multiply;
+}
 .card-title-text {
   font-size: 1.2rem;
   font-weight: 700;
@@ -1084,7 +1094,7 @@ function initStep6() {
     <div class="card-decor tl">💮</div>
     <div class="card-decor br">💮</div>
     <div class="card-header">
-      <span class="card-title-icon">💕</span>
+      <img src="6.gif" alt="love" class="card-title-gif">
       <span class="card-title-text">Your Date Card</span>
     </div>
     <div class="card-body">
