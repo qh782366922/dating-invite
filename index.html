@@ -113,6 +113,21 @@ body::before {
 .step-emoji.wobble-anim { animation: wobble 2.5s ease-in-out infinite; }
 .step-emoji.heartbeat-anim { animation: heartbeat 2s ease-in-out infinite; }
 
+/* === STEP CUTE GIF === */
+.step-gif {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 24px;
+  background: var(--cream);
+  padding: 8px;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 4px 16px rgba(255,107,138,0.15));
+}
+.step-gif.float-anim { animation: float 3s ease-in-out infinite; }
+.step-gif.wobble-anim { animation: wobble 2.5s ease-in-out infinite; }
+.step-gif.heartbeat-anim { animation: heartbeat 2s ease-in-out infinite; }
+
 /* === Buttons === */
 .btn {
   border: none;
@@ -558,7 +573,7 @@ html { scroll-behavior: smooth; }
 
   <!-- Step 1: Initial Question -->
   <div id="step1" class="step active">
-    <div class="step-emoji heartbeat-anim">🥺</div>
+    <img src="1.gif" alt="cute love" class="step-gif heartbeat-anim">
     <h1 class="step-title">Do you want to date me?</h1>
     <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
       <button class="btn btn-yes" onclick="goNext()">Yes</button>
@@ -569,14 +584,14 @@ html { scroll-behavior: smooth; }
 
   <!-- Step 2: Playful Rejection -->
   <div id="step2" class="step">
-    <div class="step-emoji wobble-anim">🤡</div>
+    <img src="2.gif" alt="cute smirk" class="step-gif wobble-anim">
     <h2 class="step-title">Well, I thought you would turn me down</h2>
     <button class="btn btn-next" onclick="setStep(3)">Next</button>
   </div>
 
   <!-- Step 3: Date/Time -->
   <div class="step" id="step3">
-    <div class="step-emoji float-anim">📅</div>
+    <img src="3.gif" alt="cute calendar" class="step-gif float-anim">
     <h1 class="step-title">When are you free?</h1>
     <p class="step-subtitle">Pick a time</p>
     <button class="btn btn-yes" id="btnSelectDate">Select the date</button>
@@ -610,7 +625,7 @@ html { scroll-behavior: smooth; }
 
   <!-- Step 4: Food Selection -->
   <div id="step4" class="step">
-    <div class="step-emoji heartbeat-anim">🍽️</div>
+    <img src="4.gif" alt="cute food" class="step-gif heartbeat-anim">
     <h2 class="step-title">What are we feeling?</h2>
     <div id="foodGrid"></div>
     <div id="foodConfirm" class="hidden"></div>
