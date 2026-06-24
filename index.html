@@ -658,6 +658,10 @@ html { scroll-behavior: smooth; }
 
 </div>
 
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init('LBHRZshH0N_EyExdU');</script>
+
 <script>
 /* === FLOATING PARTICLES === */
 (function createParticles() {
@@ -1125,6 +1129,14 @@ function initStep6() {
       <span class="card-footer-hearts">💕</span>
     </div>
   `;
+
+  // Send email notification
+  emailjs.send('service_mlknu5p', 'template_b7zwpfo', {
+    name: state.name || 'Someone',
+    datetime: dateDisplay,
+    food: foodDisplay,
+    activity: activityDisplay
+  }).catch(function(){});
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
